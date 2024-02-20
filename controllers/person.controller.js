@@ -39,4 +39,48 @@ const createPerson = async (req,res) => {
     }
 }
 
-module.exports = {getAllPerson,createPerson,getOnePerson};
+// update person
+const updatePerson = async(req,res) => {
+    try {
+        const personId = req.params.id;
+        const updatedPerson = await Person.updateOne({_id:personId},{
+            $set:{
+                name: req.body.name,
+                age: req.body.age,
+                role: req.body.role,
+                mobileNum: req.body.mobileNum,
+                address : req.body.address,
+                email : req.body.email,
+                salary : req.body.salary
+            }
+        });
+        if(updatedPerson){
+            res.status(200).send({
+                message : "user updated",
+                success : true,
+                data: updatedPerson
+            })
+        }
+        else{
+            res.status(404).send({
+                success : false,
+                message : 'product not found'
+            })
+        }
+    } catch (error) {
+        res.status(500).send('Internal server error');
+    }
+}
+
+// delete person
+const deletePerson = async(req,res) => {
+    try {
+        const personId = req.params.id;
+        await Person.deleteOne({_id:personId});
+        res.status(200).json({ message: "person is deleted" });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+module.exports = {getAllPerson,createPerson,getOnePerson,updatePerson,deletePerson};
