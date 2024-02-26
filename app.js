@@ -3,11 +3,15 @@ const app = express();
 
 const Person = require('./model/person.model');
 const MenuItem = require('./model/menuItem.model');
+const User = require('./model/user.model');
 
 const personRouter = require('./routes/person.route');
 const menuRouter = require('./routes/menuItem.routes');
+const userRouter = require('./routes/user.routes');
 
 const bodyParser = require('body-parser');
+const checkLogin = require('./middleware/checkLogin');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -23,7 +27,8 @@ app.get('/', (req,res) => {
 });
 
 app.use('/persons',personRouter);
-app.use('/menu',menuRouter);
+app.use('/menu',checkLogin,menuRouter);
+app.use('/user',userRouter);
 
 // resource error handling
 app.use((req,res,next) => {
