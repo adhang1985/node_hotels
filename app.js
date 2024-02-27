@@ -9,12 +9,11 @@ const personRouter = require('./routes/person.route');
 const menuRouter = require('./routes/menuItem.routes');
 const userRouter = require('./routes/user.routes');
 
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const checkLogin = require('./middleware/checkLogin');
 
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 // Middleware function
 const logRequest = (req,res,next) => {
